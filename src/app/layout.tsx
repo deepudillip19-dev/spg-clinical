@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import Sidebar from "../components/Sidebar";
 
 export const metadata: Metadata = {
-  title: "SPG Clinical Platform",
-  description: "Physio Genics Management System",
+  title: "SPG Clinical",
 };
 
 export default function RootLayout({
@@ -16,13 +15,10 @@ export default function RootLayout({
       <head>
         <script src="https://cdn.tailwindcss.com"></script>
       </head>
-      <body className="bg-slate-50 antialiased">
+      <body className="bg-slate-50">
         <div className="flex">
-          {/* This is the new sidebar we created */}
           <Sidebar />
-
-          {/* This is where your pages will appear */}
-          <main className="flex-1 ml-64 min-h-screen">
+          <main className="ml-64 flex-1 min-h-screen">
             {children}
           </main>
         </div>
