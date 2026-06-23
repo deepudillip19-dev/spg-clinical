@@ -1,56 +1,75 @@
 'use client';
 import React, { useState } from 'react';
-import { User, Key, Save, Database, Github, HardDrive, Download } from 'lucide-react';
+import { User, Key, Phone, Save, ShieldCheck } from 'lucide-react';
 
 export default function MyAccount({ currentUser }: any) {
-  const [name, setName] = useState(currentUser?.name || "Admin User");
-  const [success, setSuccess] = useState(false);
+  const [name, setName] = useState(currentUser?.name || "");
+  const [phone, setPhone] = useState(currentUser?.phone || "9840XXXXXX");
+  const [password, setPassword] = useState("");
+  const [msg, setMsg] = useState("");
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleUpdate = (e: React.FormEvent) => {
     e.preventDefault();
-    setSuccess(true);
-    setTimeout(() => setSuccess(false), 3000);
+    setMsg("Processing Security Update...");
+    // Simulate API Call
+    setTimeout(() => setMsg("Account & Security Settings Updated Successfully!"), 1500);
   };
 
   return (
-    <div className="p-8 max-w-4xl mx-auto space-y-6 font-sans">
-      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-        <h2 className="text-xl font-bold flex items-center gap-2 mb-6 text-slate-800">
-          <User className="text-indigo-600" /> Account Settings
-        </h2>
-        
-        <form onSubmit={handleSave} className="space-y-4">
+    <div className="p-8 max-w-2xl mx-auto space-y-6">
+      <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+        <div className="flex items-center gap-3 mb-8">
+          <div className="p-3 bg-indigo-600 rounded-2xl text-white">
+            <User size={24} />
+          </div>
           <div>
-            <label className="block text-xs font-bold text-slate-500 mb-1">FULL NAME</label>
+            <h2 className="text-xl font-bold text-slate-800">Profile Settings</h2>
+            <p className="text-slate-500 text-xs uppercase font-bold tracking-wider">{currentUser?.role} Account</p>
+          </div>
+        </div>
+
+        <form onSubmit={handleUpdate} className="space-y-5">
+          <div className="space-y-1">
+            <label className="text-[10px] font-bold text-slate-400 ml-1">FULL NAME</label>
             <input 
-              className="w-full p-3 border rounded-xl bg-slate-50" 
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none" 
               value={name} 
               onChange={(e) => setName(e.target.value)} 
             />
           </div>
-          <button type="submit" className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-indigo-700 transition">
-            {success ? "Success!" : "Save Changes"}
+
+          <div className="space-y-1">
+            <label className="text-[10px] font-bold text-slate-400 ml-1">MOBILE NUMBER (FOR OTP)</label>
+            <div className="relative">
+              <Phone size={16} className="absolute left-4 top-4 text-slate-400" />
+              <input 
+                className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl" 
+                value={phone} 
+                onChange={(e) => setPhone(e.target.value)} 
+              />
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-[10px] font-bold text-slate-400 ml-1">NEW PASSWORD</label>
+            <div className="relative">
+              <Key size={16} className="absolute left-4 top-4 text-slate-400" />
+              <input 
+                type="password"
+                placeholder="Leave blank to keep current"
+                className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+              />
+            </div>
+          </div>
+
+          {msg && <p className="text-emerald-600 text-xs font-bold text-center bg-emerald-50 py-2 rounded-lg">{msg}</p>}
+
+          <button type="submit" className="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-slate-800 transition">
+            <Save size={18} /> Save Profile Changes
           </button>
         </form>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-indigo-50 p-6 rounded-2xl border border-indigo-100">
-          <HardDrive className="text-indigo-600 mb-2" />
-          <h3 className="font-bold text-slate-800">Backup Data</h3>
-          <p className="text-xs text-slate-500 mb-4">Download your clinical records as JSON.</p>
-          <button className="w-full py-2 bg-white border border-indigo-200 rounded-lg text-xs font-bold flex items-center justify-center gap-2">
-            <Download size={14}/> Export Now
-          </button>
-        </div>
-
-        <div className="bg-slate-900 p-6 rounded-2xl text-white">
-          <Github className="text-white mb-2" />
-          <h3 className="font-bold">GitHub Sync</h3>
-          <p className="text-[10px] text-slate-400 font-mono mt-2 break-all">
-            https://github.com/deepudillip19-dev/spg-clinical.git
-          </p>
-        </div>
       </div>
     </div>
   );
